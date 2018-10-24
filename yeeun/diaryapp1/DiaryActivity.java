@@ -1,15 +1,17 @@
-package org.androidtown.diaryapp1;
+package com.example.com.diaryapp;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 
-public class DiaryActivity extends AppCompatActivity {
+public class DiaryActivity extends AppCompatActivity{
     TextView date;
     TextView contents;
     String time;
@@ -18,8 +20,8 @@ public class DiaryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary);
 
-        //전 화면에서 넘어온 intent를 받는다.
-        Intent intent = getIntent();
+        //전 화면에서 넘어온 intent를 받는다
+        Intent intent =getIntent();
         date = (TextView)findViewById(R.id.diary_date);
         contents = (TextView)findViewById(R.id.diary_contents);
 
@@ -47,8 +49,6 @@ public class DiaryActivity extends AppCompatActivity {
                 intent.putExtra("writetime",time);
                 intent.putExtra(BasicInfo.KEY_WRITE_MODE, BasicInfo.MODE_MODIFY);
                 startActivity(intent);
-                date.setText("");
-                contents.setText("");
                 finish();
             }
         });
@@ -62,8 +62,5 @@ public class DiaryActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
-
     }
 }

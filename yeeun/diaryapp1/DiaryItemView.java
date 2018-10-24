@@ -1,4 +1,4 @@
-package org.androidtown.diaryapp1;
+package com.example.com.diaryapp;
 
 import android.content.Context;
 import android.view.LayoutInflater;

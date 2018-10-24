@@ -1,11 +1,11 @@
-package org.androidtown.diaryapp1;
+package com.example.com.diaryapp;
 
 public class DiaryItem {
     public String write_date;
     public String write_time;
     public String contents;
 
-    public DiaryItem(String write_date, String contents,String write_time) {
+    public DiaryItem(String write_date, String contents, String write_time) {
         this.write_date = write_date;
         this.contents = contents;
         this.write_time = write_time;

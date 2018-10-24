@@ -1,4 +1,4 @@
-package org.androidtown.diaryapp1;
+package com.example.com.diaryapp;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -6,9 +6,7 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedWriter;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 

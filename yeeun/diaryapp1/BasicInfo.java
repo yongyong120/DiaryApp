@@ -1,7 +1,6 @@
-package org.androidtown.diaryapp1;
+package com.example.com.diaryapp;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 public class BasicInfo {
 
