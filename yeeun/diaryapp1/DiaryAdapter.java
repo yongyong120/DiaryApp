@@ -45,3 +45,5 @@ public class DiaryAdapter extends BaseAdapter {
         return itemview;
     }
 }
+
+

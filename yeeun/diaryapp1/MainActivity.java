@@ -17,8 +17,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
+    Calendar calendar= Calendar.getInstance();
 
     ListView diarylist;
     DiaryAdapter dadapter;
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG_RESULTS="result";
     private static final String TAG_DATE = "date";
     private static final String TAG_CONTENTS = "contents"; // name
+    private static final String TAG_TIME = "time";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,30 +41,51 @@ public class MainActivity extends AppCompatActivity {
         diarylist = (ListView) findViewById(R.id.diarylist);
         //리스트 넣을 다이어리 아이템 리스트 생성
         diaryitemList = new ArrayList<DiaryItem>();
-        getData("http://ec2-54-180-86-219.ap-northeast-2.compute.amazonaws.com/dtest.php");
-     //   diaryitemList.add(new DiaryItem("2018년 10월 10일", "어제는 팀플을 했다. 팀플의 장소는....."));
-     //   diaryitemList.add(new DiaryItem("2018년 09월 10일", "어제는 팀플을 했다. 팀플의 장소는....."));
-
-        //다이어리 어댑터에 CONTEXT로 메인화면과(다이어리뷰) 다이어리 아이템 리스트 인자로 넣어줌
-     //   dadapter = new DiaryAdapter(MainActivity.this, diaryitemList);
-
-        //다이어리 리스트뷰에 다이어리 어댑터를 넣어줌
-       // diarylist.setAdapter(dadapter);
 
         diarylist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(),DiaryActivity.class);
                 /*intent에 data 넘기기. putExtra에는 식별 태그, 다음 화면에 넘길 값이 들어감 */
-                intent.putExtra("date",diaryitemList.get(position).getWrite_date());
+                intent.putExtra("date", diaryitemList.get(position).getWrite_date());
                 intent.putExtra("contents",diaryitemList.get(position).getContents());
+                intent.putExtra("time",diaryitemList.get(position).getWrite_time());
                 startActivity(intent);
             }
         });
+
     }
-    //서버에서 읽은 정보를 토대로 리스트를 만든다.
+
+    protected void onStart() {
+        //서버에 올라간 데이터를 읽고 리스트 업데이트 한다.
+        getData("http://ec2-54-180-86-219.ap-northeast-2.compute.amazonaws.com/dtest.php");
+        super.onStart();
+    }
+    /*추가 버튼 눌렀을 때*/
+    public void AddButtonClicked(View v)
+    {
+        Intent intent = new Intent(getApplicationContext(), DiaryWriteActivity.class);
+        intent.putExtra("curdate",BasicInfo.dateFormat.format(calendar.getTime()));
+        intent.putExtra(BasicInfo.KEY_WRITE_MODE,BasicInfo.MODE_INSERT);
+        startActivityForResult(intent,BasicInfo.REQ_INSERT_ACTIVITY);
+    }
+    @Override /*intent로 띄운 activity가 다시 결과값을 돌려줄 때 그에 따른 처리해주는 함수*/
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch(requestCode) //intent를 띄울때 보낸 requestCode 에 따라 처리한다.
+        {
+            case BasicInfo.REQ_INSERT_ACTIVITY:
+                if(resultCode == RESULT_OK) {
+                    dadapter.notifyDataSetChanged();
+                }
+                break;
+        }
+    }
+    /*서버에서 읽은 정보를 토대로 리스트를 만든다.*/
     public void showList()
     {
+       diaryitemList.clear(); //이거 안해주면 데이터가 중복으로 들어간다.
         try{
             JSONObject jsonObj = new JSONObject(myJSON);
             infos = jsonObj.getJSONArray(TAG_RESULTS);
@@ -71,18 +95,19 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject c = infos.getJSONObject(i);
                 String date = c.getString(TAG_DATE);
                 String contents = c.getString(TAG_CONTENTS);
+                String time = c.getString(TAG_TIME);
 
-                diaryitemList.add(new DiaryItem(date,contents));
+                diaryitemList.add(new DiaryItem(date,contents,time));
             }
-            //다이어리 어댑터에 CONTEXT로 메인화면과(다이어리뷰) 다이어리 아이템 리스트 인자로 넣어줌
-            dadapter = new DiaryAdapter(MainActivity.this, diaryitemList);
-            //다이어리 리스트뷰에 다이어리 어댑터를 넣어줌
-            diarylist.setAdapter(dadapter);
         }catch (JSONException e) {
             e.printStackTrace();
         }
+        //다이어리 어댑터에 CONTEXT로 메인화면과(다이어리뷰) 다이어리 아이템 리스트 인자로 넣어줌
+        dadapter = new DiaryAdapter(MainActivity.this, diaryitemList);
+        //다이어리 리스트뷰에 다이어리 어댑터를 넣어줌
+        diarylist.setAdapter(dadapter);
     }
-    //서버에 올라간 data를 php파일 이용해 가져온다.
+    /*서버에 올라간 data를 php파일 이용해 가져온다.*/
     public void getData(String url)
     {
         class GetDataJSON extends AsyncTask<String, Void, String>{
@@ -99,24 +124,21 @@ public class MainActivity extends AppCompatActivity {
                     while((json = bufferedReader.readLine())!= null){
                         sb.append(json+"\n"); // json으로 array 받아오기
                     }
+                    bufferedReader.close();
                     return sb.toString().trim();
                 }catch(Exception e){
                     return null;
                 }
             }
 
-            @Override
+            @Override /*doinbackground가 끝나면 실행되는 함수*/
             protected void onPostExecute(String result) {
                 myJSON=result;
                 showList();
             }
         }
-        GetDataJSON g = new GetDataJSON();
-        g.execute(url);
+        GetDataJSON g = new GetDataJSON(); //위 클래스 객체 만들고
+        g.execute(url); //실행하면서 url 전달
     }
-    public void AddButtonClicked(View v)
-    {
-        Intent intent = new Intent(getApplicationContext(), DiaryWriteActivity.class);
-        startActivity(intent);
-    }
+
 }
