@@ -1,0 +1,24 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding ="20dp">
+
+        <TextView
+            android:id="@+id/d_itemDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="text1"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/d_itemText"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:text="text1"
+            android:textColor="#000000"
+            android:textSize="12sp" />
+
+
+</LinearLayout>

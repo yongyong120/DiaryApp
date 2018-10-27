@@ -2,23 +2,24 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
     <!--다이어리 쓰는 뷰-->
     <TextView
-        android:id="@+id/diary_date"
+        android:id="@+id/d_writeDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="16dp"
-        android:autofillHints="2018년 월 일"
         android:ems="10"
+        android:gravity="center"
         android:inputType="text" />
 
-    <TextView
-        android:id="@+id/diary_contents"
+    <EditText
+        android:id="@+id/d_writeContents"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_margin="16dp"
@@ -37,25 +38,19 @@
         >
 
         <Button
-            android:id="@+id/modify_button"
+            android:id="@+id/save_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
-            android:text="수정"
+            android:text="저장"
             />
 
         <Button
-            android:id="@+id/back_button"
+            android:id="@+id/cancel_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:text="닫기"
             />
-        <Button
-            android:id="@+id/delete_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="삭제"/>
     </LinearLayout>
 </LinearLayout>
