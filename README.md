@@ -14,12 +14,18 @@
 추가해야 하는 기능
 1. 일기 시간 역순으로 보이게 하기
 2. 검색 기능
+3. 메모장 손글씨 기능
 
 화면 사진 차례대로
-1. 첫 화면 2.추가 버튼 눌렀을 때 3.리스트 일기 
+1. 첫 화면 2.가입화면 3.로그인 후 메뉴 화면 4.일기장 메인 화면 5.일기장 보기 화면 6. 일기장 수정 화면 7. 메모 쓰기 화면 8.어플 아이콘
 
 <div>
-<img widht="200" src="https://user-images.githubusercontent.com/30498310/47266363-483fe300-d570-11e8-9166-d1af0d5574c1.png">
-<img widht="200" src="https://user-images.githubusercontent.com/30498310/47266366-5d1c7680-d570-11e8-8968-6704062ee0df.png">
-<img widht="200" src="https://user-images.githubusercontent.com/30498310/47266368-660d4800-d570-11e8-882d-8465fb1264e9.png">
+<img widht="200" src="https://user-images.githubusercontent.com/30498310/47604276-5e4b1900-da32-11e8-816a-eb3f60ea8878.png">
+<img widht="200" src="https://user-images.githubusercontent.com/30498310/47604283-70c55280-da32-11e8-9562-64d7946464a1.png">
+<img widht="200" src="https://user-images.githubusercontent.com/30498310/47604279-65722700-da32-11e8-8c93-464eb0a92169.png">
+<img widht="200" src="https://user-images.githubusercontent.com/30498310/47604320-f77a2f80-da32-11e8-99b2-381832baa350.png">
+<img widht="200" src="https://user-images.githubusercontent.com/30498310/47604322-019c2e00-da33-11e8-9d04-1d0a47faf3c7.png">
+<img widht="200" src="https://user-images.githubusercontent.com/30498310/47604323-07920f00-da33-11e8-99b9-965add6e2da4.png">
+<img widht="200" src="https://user-images.githubusercontent.com/30498310/47604326-111b7700-da33-11e8-9d9e-eb57cf451e45.png">
+<img widht="200" src="https://user-images.githubusercontent.com/30498310/47604364-ab7bba80-da33-11e8-931e-99278ebba121.png">
 </div>
