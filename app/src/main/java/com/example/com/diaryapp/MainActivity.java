@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity
         View nav_header = navigationView.getHeaderView(0);
         TextView txt = nav_header.findViewById(R.id.user_idid);
         txt.setText(idid);
-
+        BasicInfo.userID = idid;
         //처음 화면을 일기장으로 설정
         Fragment fragment =  new DiaryFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -122,8 +122,6 @@ public class MainActivity extends AppCompatActivity
         // doInBackground의 매개값이 문자열 배열인데요. 보낼 값이 여러개일 경우를 위해 배열로 합니다.
         protected String doInBackground(String... strings) {
             try {
-
-
                 String link = "http://ec2-54-180-86-219.ap-northeast-2.compute.amazonaws.com/logout.php";
                 String str;
 

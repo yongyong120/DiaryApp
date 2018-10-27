@@ -3,7 +3,8 @@ package com.example.com.diaryapp;
 import java.text.SimpleDateFormat;
 
 public class BasicInfo {
-
+    //사용자 아이디//
+    public static String userID;
 
     //========== 날짜 포맷  ==========//
     public static SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy년 MM월 dd일");

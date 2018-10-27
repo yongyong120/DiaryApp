@@ -31,7 +31,6 @@ public class DiaryWriteActivity extends AppCompatActivity {
         writedate.setText(intent.getStringExtra("curdate")); //intent putExtra에서 준 식별 태그와 같은 이름이여야 한다.
         writecontent.setText(intent.getStringExtra("curcontents"));
         writetime = intent.getStringExtra("writetime");
-
         dMode = intent.getStringExtra(BasicInfo.KEY_WRITE_MODE);
         Button button = (Button)findViewById(R.id.cancel_button);
         button.setOnClickListener(new View.OnClickListener(){

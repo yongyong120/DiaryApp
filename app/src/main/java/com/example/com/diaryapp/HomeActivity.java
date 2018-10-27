@@ -139,8 +139,6 @@ public class HomeActivity extends AppCompatActivity{
                     intent.putExtra("pw",pwpw);
                     startActivity(intent);
                     finish();
-
-
                     /*
                     startActivity((new Intent(HomeActivity.this, MainActivity.class)));
                     finish();*/

@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -105,7 +107,7 @@ public class DiaryFragment extends Fragment {
                 String contents = c.getString(TAG_CONTENTS);
                 String time = c.getString(TAG_TIME);
 
-                diaryitemList.add(new DiaryItem(date,contents,time));
+                diaryitemList.add(new DiaryItem(date,contents,time,BasicInfo.userID));
             }
         }catch (JSONException e) {
             e.printStackTrace();
@@ -126,13 +128,39 @@ public class DiaryFragment extends Fragment {
                 try{
                     URL url = new URL(uri);
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                    StringBuilder sb = new StringBuilder();
-                    bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                    String json;
-                    while((json = bufferedReader.readLine())!= null){
-                        sb.append(json+"\n"); // json으로 array 받아오기
+                    con.setRequestMethod("POST"); //요청 방식을 POST로 합니다.
+                    //json파일에 대한정보 설정 (꼭 해줘야 되는지는 모르겠음)
+                    con.setRequestProperty("Content-Type","application/json");
+                    con.setRequestProperty("Accept","application/json");
+                    con.setDoOutput(true);
+                    /* build JSON object & 데이터 전송*/
+                    JSONObject jsonObject = new JSONObject();
+                    try{
+                        jsonObject.accumulate("uid",BasicInfo.userID);
+                    }catch(JSONException e)
+                    {
+                        return "json error1";
                     }
-                    bufferedReader.close();
+                    //데이터 전송
+                    OutputStream os = con.getOutputStream(); //outputstream을 얻어온다.
+                    Log.d("DiaryjSon",jsonObject.toString());
+                    os.write(jsonObject.toString().getBytes());
+                    os.flush();
+                    os.close();
+                    //전송이 정상적으로 됐다면
+                    StringBuilder sb = new StringBuilder();
+                    if(con.getResponseCode() == con.HTTP_OK)
+                    {
+                        bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                        String json;
+                        while((json = bufferedReader.readLine())!= null){
+                            sb.append(json+"\n"); // json으로 array 받아오기
+                        }
+                        bufferedReader.close();
+                    }else {
+                        Log.i("통신 결과", con.getResponseCode()+"에러");
+                        // 통신이 실패했을 때 실패한 이유를 알기 위해 로그를 찍습니다.
+                    }
                     return sb.toString().trim();
                 }catch(Exception e){
                     return null;
