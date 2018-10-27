@@ -15,6 +15,7 @@ import static android.support.constraint.Constraints.TAG;
 /*http://webnautes.tistory.com/828
 http://hmkcode.com/android-send-json-data-to-server/ 참고
 다이어리 추가, 수정, 삭제위한 서버 연결 작업을 한다.
+다이어리의 날짜, 시간, 내용, user 정보가 json으로 전달된다.
 */
 public class DiaryInsert extends AsyncTask<String, Void, String> {
 
@@ -29,7 +30,6 @@ public class DiaryInsert extends AsyncTask<String, Void, String> {
         String date = (String)params[1];
         String contents = (String)params[2];
         String time = (String)params[3];
-        String json ="";
         /*1. HttpURLConnection 생성*/
         try{
             URL url = new URL(serverURL); //예외 처리 안해주면 빨간줄 생김
@@ -48,8 +48,7 @@ public class DiaryInsert extends AsyncTask<String, Void, String> {
                 jsonObject.accumulate("date",date);
                 jsonObject.accumulate("contents",contents);
                 jsonObject.accumulate("time",time);
-                Log.d("Diary",date);
-                Log.d("Diary",contents);
+                jsonObject.accumulate("uid",BasicInfo.userID);
             }catch(JSONException e)
             {
                 return "json error1";
